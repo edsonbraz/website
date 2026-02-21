@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bottle Sort Relay — Sort Colors, Beat the Clock</title>
+  <meta name="description" content="Challenge yourself with 1,000+ handcrafted color-sorting puzzles. Race the clock or play at your own pace. Free on iOS.">
+  <meta name="theme-color" content="#050b18">
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="apple-itunes-app" content="app-id=XXXXXXXXX">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bottle Sort Relay — Sort Colors, Beat the Clock">
+  <meta property="og:description" content="1,000+ handcrafted color-sorting puzzles. Two game modes. Free on iOS.">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #050b18;
+      --accent-blue: #38bdf8;
+      --accent-gold: #fbbf24;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: white;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ── Atmospheric glows ── */
+    .glow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.08) 0%, transparent 40%);
+      animation: glow-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── Navigation ── */
+    .nav-blur {
+      background: rgba(5, 11, 24, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ── Glass cards ── */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-6px);
+    }
+
+    /* ── Hero gradient text ── */
+    .hero-gradient-text {
+      background: linear-gradient(to bottom right, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── iPhone mockup ── */
+    .iphone-mockup {
+      width: 280px;
+      height: 580px;
+      background: #0a0a0a;
+      border: 10px solid #1e293b;
+      border-radius: 40px;
+      box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.10);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .iphone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 25px;
+      background: #1e293b;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 20;
+    }
+
+    .iphone-mockup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 10;
+    }
+
+    /* ── SVG logo animation ── */
+    .hero-logo .pour-stream { animation: pour-pulse 2.5s ease-in-out infinite; }
+
+    @keyframes pour-pulse {
+      0%, 100% { opacity: 0.60; }
+      50% { opacity: 0.92; }
+    }
+
+    /* ── Float ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(0.5deg); }
+    }
+    .floating { animation: float 6s ease-in-out infinite; }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Privacy card specifics ── */
+    .privacy-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .privacy-card .sub-section {
+      border-left: 2px solid rgba(255, 255, 255, 0.10);
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; color: #111; }
+      .glow-bg, nav, .iphone-mockup, .phone-glow, footer,
+      .app-store-badge, .hero-meta-line, #modes, #pro { display: none !important; }
+      .hero-gradient-text {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #111;
+      }
+      section { padding-top: 24px !important; padding-bottom: 24px !important; }
+      .privacy-card { background: none; border: 1px solid #ccc; }
+      h2, h3, h4, strong { color: #111 !important; }
+      p, ul, li { color: #222 !important; }
+      a { color: #0066cc !important; }
+      .sub-section { border-left-color: #ccc !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- ════════════════ Navigation ════════════════ -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg shadow-lg">
+        <span class="text-lg font-black tracking-tight">Bottle Sort <span class="text-sky-400">Relay</span></span>
+      </div>
+      <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="#hero" class="hover:text-white transition-colors">Game</a>
+        <a href="#how" class="hover:text-white transition-colors">How to Play</a>
+        <a href="#privacy" class="hover:text-white transition-colors">Privacy</a>
+        <a href="https://apps.apple.com/app/bottle-sort-relay/idXXXXXXXXX" class="bg-sky-500 text-white px-5 py-2 rounded-full font-black hover:bg-sky-400 transition-all">Download</a>
+      </div>
+      <!-- Mobile menu button -->
+      <a href="https://apps.apple.com/app/bottle-sort-relay/idXXXXXXXXX" class="md:hidden bg-sky-500 text-white px-4 py-1.5 rounded-full text-xs font-black hover:bg-sky-400 transition-all">Download</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════ Hero ════════════════ -->
+  <section id="hero" class="pt-32 pb-20 px-6">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Left column: text -->
+      <div class="text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-black mb-6 tracking-widest uppercase">
+          Sort Colors, Beat the Clock
+        </div>
+
+        <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
+          Bottle Sort<br>
+          <span class="text-sky-400" style="-webkit-text-fill-color: #38bdf8;">Relay</span>
+        </h1>
+
+        <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+          Challenge yourself with 1,000+ handcrafted puzzles. Race the clock in Timed mode or plan carefully in Relaxed mode. The ultimate color-sorting experience.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+          <a href="https://apps.apple.com/app/bottle-sort-relay/idXXXXXXXXX" class="app-store-badge transition-transform hover:scale-105">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="h-14">
+          </a>
+          <div class="hero-meta-line text-xs font-bold text-slate-500 uppercase tracking-widest">
+            Ages 4+ &ensp;|&ensp; No accounts required
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: phone mockup -->
+      <div class="flex justify-center relative mt-10 lg:mt-0">
+        <div class="phone-glow absolute -z-10 w-72 h-72 bg-sky-500/30 blur-[80px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="iphone-mockup floating">
+          <img src="screenshot.png" alt="Bottle Sort Relay gameplay" class="iphone-screen">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════ How to Play ════════════════ -->
+  <section id="how" class="py-24 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 bg-amber-500 rounded-full"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">How to Play</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- Left: SVG logo -->
+        <div class="flex justify-center reveal">
+          <svg class="hero-logo w-48 md:w-56" xmlns="http://www.w3.org/2000/svg" viewBox="10 -5 186 195" aria-label="Bottle Sort Relay logo">
+            <defs>
+              <linearGradient id="pour-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ef4444"/>
+                <stop offset="100%" stop-color="#dc2626"/>
+              </linearGradient>
+              <clipPath id="hg-clip">
+                <path d="M157,12 L171,12 C174,15 174,21 166,24 C174,27 174,33 171,36 L157,36 C154,33 154,27 162,24 C154,21 154,15 157,12 Z"/>
+              </clipPath>
+            </defs>
+            <path class="pour-stream" d="M47,60 Q48,38 100,32 Q152,38 153,60 L153,63 Q152,43 100,37 Q48,43 47,63 Z" fill="url(#pour-fill)" opacity="0.82"/>
+            <path class="pour-stream" d="M49,60 Q50,42 100,36 Q150,42 151,60" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.20"/>
+            <path d="M34,140 L62,140 L62,156 Q62,172 48,172 Q34,172 34,156 Z" fill="#22c55e"/>
+            <rect x="34" y="118" width="28" height="22" fill="#3b82f6"/>
+            <rect x="34" y="96" width="28" height="22" fill="#ef4444"/>
+            <rect x="34" y="96" width="6" height="76" fill="#ffffff" opacity="0.08" rx="2"/>
+            <rect x="34" y="96" width="28" height="3" fill="#ffffff" opacity="0.20" rx="1"/>
+            <path d="M32,67 L32,63 Q32,59 36,59 L60,59 Q64,59 64,63 L64,67 Q64,68.5 62.5,69 L62,69 L62,156 Q62,172 48,172 Q34,172 34,156 L34,69 L33.5,69 Q32,68.5 32,67 Z" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.45"/>
+            <rect x="33" y="58" width="30" height="3" rx="1.5" fill="#ffffff" opacity="0.25"/>
+            <path d="M86,135 L114,135 L114,156 Q114,172 100,172 Q86,172 86,156 Z" fill="#a855f7"/>
+            <rect x="86" y="113" width="28" height="22" fill="#eab308"/>
+            <rect x="86" y="91" width="28" height="22" fill="#22c55e"/>
+            <rect x="86" y="69" width="28" height="22" fill="#3b82f6"/>
+            <rect x="86" y="69" width="6" height="103" fill="#ffffff" opacity="0.08" rx="2"/>
+            <rect x="86" y="69" width="28" height="3" fill="#ffffff" opacity="0.20" rx="1"/>
+            <path d="M84,67 L84,63 Q84,59 88,59 L112,59 Q116,59 116,63 L116,67 Q116,68.5 114.5,69 L114,69 L114,156 Q114,172 100,172 Q86,172 86,156 L86,69 L85.5,69 Q84,68.5 84,67 Z" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.45"/>
+            <rect x="85" y="58" width="30" height="3" rx="1.5" fill="#ffffff" opacity="0.25"/>
+            <path d="M138,140 L166,140 L166,156 Q166,172 152,172 Q138,172 138,156 Z" fill="#a855f7"/>
+            <rect x="138" y="118" width="28" height="22" fill="#eab308"/>
+            <rect x="138" y="96" width="28" height="22" fill="#ef4444"/>
+            <rect x="138" y="96" width="6" height="76" fill="#ffffff" opacity="0.08" rx="2"/>
+            <rect x="138" y="96" width="28" height="3" fill="#ffffff" opacity="0.20" rx="1"/>
+            <path d="M136,67 L136,63 Q136,59 140,59 L164,59 Q168,59 168,63 L168,67 Q168,68.5 166.5,69 L166,69 L166,156 Q166,172 152,172 Q138,172 138,156 L138,69 L137.5,69 Q136,68.5 136,67 Z" fill="none" stroke="#ffffff" stroke-width="2.5" opacity="0.45"/>
+            <rect x="137" y="58" width="30" height="3" rx="1.5" fill="#ffffff" opacity="0.25"/>
+            <rect x="155" y="11" width="18" height="2.5" rx="1.25" fill="#ffffff" opacity="0.25"/>
+            <rect x="155" y="35" width="18" height="2.5" rx="1.25" fill="#ffffff" opacity="0.25"/>
+            <g clip-path="url(#hg-clip)">
+              <rect x="152" y="14" width="24" height="6" fill="#fbbf24" opacity="0.55"/>
+              <rect x="152" y="28" width="24" height="9" fill="#fbbf24" opacity="0.80"/>
+            </g>
+            <path d="M157,12 L171,12 C174,15 174,21 166,24 C174,27 174,33 171,36 L157,36 C154,33 154,27 162,24 C154,21 154,15 157,12 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.45"/>
+            <line x1="164" y1="23" x2="164" y2="25" stroke="#fbbf24" stroke-width="1" opacity="0.5"/>
+          </svg>
+        </div>
+
+        <!-- Right: description -->
+        <div class="space-y-6 reveal">
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            Each bottle holds up to four layers of colored liquid. <strong class="text-white">Tap a bottle</strong> to pick it up, then <strong class="text-white">tap another</strong> to pour. Colors flow only when the top colors match — or the destination is empty.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            Your goal: sort every bottle so each one contains a single color. As levels progress, you'll face more colors, tighter timers, and <strong class="text-white">locked bottles</strong> that only unlock when you sort a neighbor.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            Stuck? Use <strong class="text-white">Hints</strong> to reveal the next optimal move, or <strong class="text-white">Undo</strong> to reverse mistakes. Need to earn stars for speed and efficiency across 10 chapters of escalating difficulty.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Game Modes ════════════════ -->
+  <section id="modes" class="py-24 bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 bg-sky-500 rounded-full"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">Two Ways to Play</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#9201;</div>
+          <h3 class="text-2xl font-black mb-3 text-amber-400">Timed Mode</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            The pressure is on. Every second you save carries over to the next level — bank time for the harder chapters ahead. Stars are awarded based on how much time remains when you finish.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#9749;</div>
+          <h3 class="text-2xl font-black mb-3 text-sky-400">Relaxed Mode</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            No timer. Take your time and focus on finding the most efficient solution. Stars are awarded based on your move count versus the optimal par. Includes a step-by-step solution reveal for Pro users.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Pro Section ════════════════ -->
+  <section id="pro" class="py-24">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="glass-card p-12 rounded-[3rem] border-amber-500/20 text-center reveal">
+        <h2 class="text-3xl font-black mb-4">Go Pro for $1.99</h2>
+        <p class="text-slate-400 mb-8 max-w-lg mx-auto font-medium leading-relaxed">
+          One-time purchase. All ads completely removed. Unlimited Hints, Unlimited Undos, Solution Reveal, and all 1,000 levels unlocked instantly.
+        </p>
+        <a href="https://apps.apple.com/app/bottle-sort-relay/idXXXXXXXXX" class="inline-block bg-amber-500 text-amber-950 px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform">
+          Get Pro Version
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Privacy Policy ════════════════ -->
+  <section id="privacy" class="py-24 border-t border-white/5">
+    <div class="max-w-4xl mx-auto px-6 reveal">
+
+      <div class="flex items-center gap-4 mb-10">
+        <div class="w-8 h-1 bg-sky-500 rounded-full"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">Privacy Policy</h2>
+      </div>
+
+      <div class="privacy-card rounded-2xl p-8 md:p-12 space-y-8 text-slate-400 leading-relaxed text-sm font-medium">
+
+        <p class="text-slate-500">Effective: February 21, 2026</p>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">1. Introduction</h3>
+          <p>Edson Braz ("Developer", "we", "our") operates <strong class="text-white">Bottle Sort Relay</strong>. This Privacy Policy describes how information is handled when you use our app.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">2. Information Stored Locally</h3>
+          <p class="mb-3">All game data is stored on your device only:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Level progress and completion status</li>
+            <li>Stars earned and best times/moves</li>
+            <li>Tutorial completion state</li>
+            <li>Settings preferences (audio, haptics, theme)</li>
+            <li>Pro upgrade purchase status (stored securely in Keychain)</li>
+            <li>Review prompt state</li>
+          </ul>
+          <p class="mt-3">We do not create user accounts, and we do not collect personal information.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">3. Third-Party Services</h3>
+
+          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
+            <h4 class="text-white font-semibold">Google AdMob</h4>
+            <p>We use Google AdMob to display rewarded advertisements only. There are exactly three user-initiated ad placements: earning extra hints, earning extra undos, and earning bonus time. We do not display interstitial or banner advertisements.</p>
+            <p>When you watch a rewarded ad, Google may collect: IP address, device identifiers, ad interaction data, and performance/crash diagnostics.</p>
+            <p>Pro users never see advertisements, and AdMob is completely inactive for Pro users.</p>
+            <p>See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">Google's Privacy Policy</a>.</p>
+          </div>
+
+          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
+            <h4 class="text-white font-semibold">Apple StoreKit</h4>
+            <p>All in-app purchase processing is handled by Apple through StoreKit. The Developer does not receive, store, or process any payment information.</p>
+          </div>
+
+          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
+            <h4 class="text-white font-semibold">Apple Game Center</h4>
+            <p>Game Center integration exists in the app but is currently disabled. This Privacy Policy will be updated before any Game Center features are enabled.</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">4. How Information Is Used</h3>
+          <p>Local data is used solely to save your game progress and preferences. Advertising data is used by Google to serve relevant rewarded ads. We do not profile users, engage in cross-app tracking, or use data for marketing purposes.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">5. Data Sharing</h3>
+          <p>We do not sell, trade, or rent your data. The only third party that receives data is Google, through the AdMob SDK, and only for free (non-Pro) users who choose to watch rewarded ads. Pro users have zero third-party data sharing.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">6. Children's Privacy</h3>
+          <p>Bottle Sort Relay is rated 4+ and is suitable for all ages. We do not collect personal information from any user, including children. No registration or account creation is required to play. Parents and guardians can eliminate all advertisements and third-party data collection by purchasing the Pro upgrade.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">7. Data Retention and Deletion</h3>
+          <p>All game data is stored locally on your device and is automatically deleted when you uninstall the app. Any data collected by third-party services (Google AdMob) is subject to their respective retention policies. We do not maintain any server-side databases.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">8. Your Rights</h3>
+          <p>Because no data is stored on our servers, there is no server-side data to request or delete. To remove all local game data, simply uninstall the app. To opt out of personalized advertising, adjust your settings in iOS Settings &gt; Privacy &amp; Security &gt; Tracking. To eliminate all third-party data collection entirely, purchase the Pro upgrade.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">9. Changes to This Privacy Policy</h3>
+          <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
+        </div>
+
+        <div class="pt-8 border-t border-white/5">
+          <h3 class="text-white font-bold mb-2 text-base">10. Contact</h3>
+          <p>If you have questions about this Privacy Policy, contact us:</p>
+          <p class="mt-2"><strong class="text-white">Edson Braz</strong> — <a href="mailto:edsonluizbraz@gmail.com" class="text-sky-400 hover:underline">edsonluizbraz@gmail.com</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Footer ════════════════ -->
+  <footer class="py-12 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-widest text-slate-600">
+    <div class="max-w-6xl mx-auto px-6 space-y-2">
+      <p>&copy; 2026 Edson Braz. All rights reserved.</p>
+      <p><a href="#privacy" class="hover:text-slate-400 transition-colors">Privacy Policy</a></p>
+      <p class="opacity-50">Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
