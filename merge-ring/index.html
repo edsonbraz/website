@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge Ring — Swipe, Collide & Merge</title>
+  <meta name="description" content="Swipe, collide, and merge your way to 2048 in a circular arena! Physics-based merge arcade game for iOS.">
+  <meta name="theme-color" content="#0a0a15">
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="apple-itunes-app" content="app-id=XXXXXXXXX">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Merge Ring — Swipe, Collide & Merge">
+  <meta property="og:description" content="Swipe numbered balls across a circular arena. When same-valued balls collide, they merge — all the way to 2048. Free on iOS.">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0a0a15;
+      --accent-cyan: #00d4ff;
+      --accent-gold: #d9a621;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: white;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ── Atmospheric glows ── */
+    .glow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(217, 166, 33, 0.08) 0%, transparent 40%);
+      animation: glow-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── Navigation ── */
+    .nav-blur {
+      background: rgba(10, 10, 21, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ── Glass cards ── */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-6px);
+    }
+
+    /* ── Hero gradient text ── */
+    .hero-gradient-text {
+      background: linear-gradient(to bottom right, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── iPhone mockup ── */
+    .iphone-mockup {
+      width: 280px;
+      height: 580px;
+      background: #0a0a0a;
+      border: 10px solid #1e293b;
+      border-radius: 40px;
+      box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 212, 255, 0.10);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .iphone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 25px;
+      background: #1e293b;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 20;
+    }
+
+    .iphone-mockup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 10;
+    }
+
+    /* ── SVG arena ring pulse ── */
+    .arena-ring-pulse { animation: ring-pulse 3s ease-in-out infinite; }
+
+    @keyframes ring-pulse {
+      0%, 100% { stroke-opacity: 0.7; }
+      50% { stroke-opacity: 0.4; }
+    }
+
+    /* ── Float ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(0.5deg); }
+    }
+    .floating { animation: float 6s ease-in-out infinite; }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Privacy card specifics ── */
+    .privacy-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .privacy-card .sub-section {
+      border-left: 2px solid rgba(255, 255, 255, 0.10);
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; color: #111; }
+      .glow-bg, nav, .iphone-mockup, .phone-glow, footer,
+      .app-store-badge, .hero-meta-line, #features, #iap { display: none !important; }
+      .hero-gradient-text {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #111;
+      }
+      section { padding-top: 24px !important; padding-bottom: 24px !important; }
+      .privacy-card { background: none; border: 1px solid #ccc; }
+      h2, h3, h4, strong { color: #111 !important; }
+      p, ul, li { color: #222 !important; }
+      a { color: #0066cc !important; }
+      .sub-section { border-left-color: #ccc !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- ════════════════ Navigation ════════════════ -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg shadow-lg">
+        <span class="text-lg font-black tracking-tight">Merge <span style="color: #00d4ff;">Ring</span></span>
+      </div>
+      <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="#hero" class="hover:text-white transition-colors">Game</a>
+        <a href="#how" class="hover:text-white transition-colors">How to Play</a>
+        <a href="#privacy" class="hover:text-white transition-colors">Privacy</a>
+        <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="text-white px-5 py-2 rounded-full font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
+      </div>
+      <!-- Mobile menu button -->
+      <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="md:hidden text-white px-4 py-1.5 rounded-full text-xs font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════ Hero ════════════════ -->
+  <section id="hero" class="pt-32 pb-20 px-6">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Left column: text -->
+      <div class="text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-black mb-6 tracking-widest uppercase" style="background: rgba(217, 166, 33, 0.10); border-color: rgba(217, 166, 33, 0.20); color: #d9a621;">
+          Swipe, Collide & Merge
+        </div>
+
+        <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
+          Merge<br>
+          <span style="-webkit-text-fill-color: #00d4ff;">Ring</span>
+        </h1>
+
+        <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+          Swipe numbered balls across a circular arena powered by real physics. When same-valued balls collide, they merge — 2 becomes 4, 4 becomes 8, all the way to 2048.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+          <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="app-store-badge transition-transform hover:scale-105">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="h-14">
+          </a>
+          <div class="hero-meta-line text-xs font-bold text-slate-500 uppercase tracking-widest">
+            Ages 4+ &ensp;|&ensp; No accounts required
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: phone mockup -->
+      <div class="flex justify-center relative mt-10 lg:mt-0">
+        <div class="phone-glow absolute -z-10 w-72 h-72 blur-[80px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="background: rgba(0, 212, 255, 0.30);"></div>
+        <div class="iphone-mockup floating">
+          <img src="screenshot.png" alt="Merge Ring gameplay" class="iphone-screen">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════ How to Play ════════════════ -->
+  <section id="how" class="py-24 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 rounded-full" style="background: #d9a621;"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">How to Play</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- Left: Inline arena SVG -->
+        <div class="flex justify-center reveal">
+          <svg class="w-48 md:w-56" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-label="Merge Ring arena illustration">
+            <defs>
+              <radialGradient id="mr-bg" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="#0d1a2e"/>
+                <stop offset="100%" stop-color="#080812"/>
+              </radialGradient>
+              <radialGradient id="mr-arena-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="70%" stop-color="transparent"/>
+                <stop offset="85%" stop-color="#00d4ff" stop-opacity="0.12"/>
+                <stop offset="95%" stop-color="#00d4ff" stop-opacity="0.05"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+              <filter id="mr-ring-glow">
+                <feGaussianBlur stdDeviation="20" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="mr-ball-soft">
+                <feGaussianBlur stdDeviation="8" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="mr-ball-shadow">
+                <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+              </filter>
+              <filter id="mr-hero-glow">
+                <feGaussianBlur stdDeviation="18" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <radialGradient id="mr-ball-256" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#a8b8e8"/>
+                <stop offset="100%" stop-color="#4858a0"/>
+              </radialGradient>
+              <radialGradient id="mr-ball-512" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#c898d8"/>
+                <stop offset="100%" stop-color="#8048a0"/>
+              </radialGradient>
+              <radialGradient id="mr-ball-1024" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#e8a088"/>
+                <stop offset="100%" stop-color="#b06040"/>
+              </radialGradient>
+              <radialGradient id="mr-ball-2048" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#ffe066"/>
+                <stop offset="50%" stop-color="#d9a621"/>
+                <stop offset="100%" stop-color="#a07818"/>
+              </radialGradient>
+              <radialGradient id="mr-hero-aura" cx="50%" cy="50%" r="50%">
+                <stop offset="60%" stop-color="transparent"/>
+                <stop offset="80%" stop-color="#d9a621" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#d9a621" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <rect width="1024" height="1024" rx="220" fill="url(#mr-bg)"/>
+            <circle cx="512" cy="512" r="490" fill="url(#mr-arena-glow)"/>
+
+            <!-- Arena ring with pulse animation -->
+            <circle class="arena-ring-pulse" cx="512" cy="512" r="435" fill="none" stroke="#00d4ff" stroke-width="13" stroke-opacity="0.7" filter="url(#mr-ring-glow)"/>
+            <circle cx="512" cy="512" r="435" fill="none" stroke="#00d4ff" stroke-width="4" stroke-opacity="0.35"/>
+            <circle cx="512" cy="512" r="310" fill="none" stroke="#00d4ff" stroke-width="2.5" stroke-opacity="0.1" stroke-dasharray="18 28"/>
+
+            <!-- Motion trails -->
+            <path d="M756 300 Q700 410 680 460" stroke="#a8b8e8" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
+            <path d="M728 670 Q660 580 610 540" stroke="#c898d8" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
+            <path d="M300 560 Q380 530 440 510" stroke="#e8a088" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
+
+            <!-- Ball: 256 -->
+            <g filter="url(#mr-ball-shadow)">
+              <circle cx="758" cy="296" r="82" fill="url(#mr-ball-256)" filter="url(#mr-ball-soft)"/>
+              <circle cx="758" cy="296" r="82" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+              <text x="758" y="318" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="52" fill="#ffffff">256</text>
+            </g>
+
+            <!-- Ball: 512 -->
+            <g filter="url(#mr-ball-shadow)">
+              <circle cx="730" cy="710" r="98" fill="url(#mr-ball-512)" filter="url(#mr-ball-soft)"/>
+              <circle cx="730" cy="710" r="98" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+              <text x="730" y="735" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="58" fill="#ffffff">512</text>
+            </g>
+
+            <!-- Ball: 1024 -->
+            <g filter="url(#mr-ball-shadow)">
+              <circle cx="260" cy="555" r="112" fill="url(#mr-ball-1024)" filter="url(#mr-ball-soft)"/>
+              <circle cx="260" cy="555" r="112" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
+              <text x="260" y="582" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="60" fill="#ffffff">1024</text>
+            </g>
+
+            <!-- 2048 aura + ball -->
+            <circle cx="512" cy="490" r="240" fill="url(#mr-hero-aura)"/>
+            <g filter="url(#mr-ball-shadow)">
+              <circle cx="512" cy="490" r="162" fill="url(#mr-ball-2048)" filter="url(#mr-hero-glow)"/>
+              <circle cx="512" cy="490" r="162" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3"/>
+              <text x="512" y="520" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="800" font-size="80" fill="#ffffff">2048</text>
+            </g>
+
+            <!-- Sparkle particles -->
+            <circle cx="615" cy="355" r="6" fill="#00d4ff" opacity="0.5"/>
+            <circle cx="385" cy="400" r="5" fill="#00d4ff" opacity="0.4"/>
+            <circle cx="640" cy="610" r="6.5" fill="#c898d8" opacity="0.35"/>
+            <circle cx="400" cy="700" r="5" fill="#00d4ff" opacity="0.3"/>
+            <circle cx="340" cy="310" r="4" fill="#a8b8e8" opacity="0.35"/>
+            <circle cx="680" cy="480" r="4.5" fill="#ffe066" opacity="0.3"/>
+            <circle cx="450" cy="680" r="3.5" fill="#00d4ff" opacity="0.3"/>
+            <circle cx="580" cy="280" r="4" fill="#00d4ff" opacity="0.3"/>
+          </svg>
+        </div>
+
+        <!-- Right: description -->
+        <div class="space-y-6 reveal">
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            <strong class="text-white">Swipe to launch</strong> a numbered ball across the circular arena. Control the direction and force with your finger — a quick flick sends it flying, a gentle swipe rolls it into position. Your swipe force directly controls the speed.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            When two balls with the <strong class="text-white">same value collide, they merge</strong> into one with double the value. 2 becomes 4, 4 becomes 8, 8 becomes 16 — keep merging all the way up to <strong class="text-white">2048</strong> and beyond.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            Balls <strong class="text-white">bounce off the arena walls</strong> and each other with realistic physics. Plan your shots carefully — the arena fills up fast. When <strong class="text-white">12 balls</strong> fill the ring with no merges possible, it's game over.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Features ════════════════ -->
+  <section id="features" class="py-24 bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 rounded-full" style="background: #00d4ff;"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">What Makes It Click</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#9881;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">Real Physics</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            A 120 Hz physics engine powers every collision. Balls bounce with elastic momentum, ricochet off walls, and transfer energy on impact. Your swipe force controls the speed — master it to line up chain reactions.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#127921;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">2048 Meets Billiards</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            The addictive number-merging progression of 2048 combined with billiards-style flick controls. Every shot matters — angle your merges, bank off walls, and chain combos to climb the leaderboard.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#127912;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">6 Visual Themes</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Play in the free Classic theme or unlock 5 Pro themes with unique color palettes and visual styles. Every theme is designed for dark mode — easy on the eyes, day or night.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#128171;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">Feel Every Hit</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Haptic feedback pulses with every collision and merge. Dynamic sound effects react to impact force. Save and resume anytime — no internet required. Just you, the ring, and physics.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ In-App Purchases ════════════════ -->
+  <section id="iap" class="py-24">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="glass-card p-12 rounded-[3rem] text-center reveal" style="border-color: rgba(217, 166, 33, 0.20);">
+        <h2 class="text-3xl font-black mb-4">Play Your Way</h2>
+        <p class="text-slate-400 mb-8 max-w-lg mx-auto font-medium leading-relaxed">
+          The full game is free. Want a cleaner experience? <strong class="text-white">Remove Ads</strong> with a one-time $2.99 purchase — no more banners, ever. Love customization? Unlock <strong class="text-white">Pro Themes</strong> for 5 premium visual styles.
+        </p>
+        <p class="text-slate-500 text-sm mb-8 font-medium">
+          Both are one-time purchases. No subscriptions.
+        </p>
+        <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="inline-block text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform" style="background: #d9a621; color: #1a1200;">
+          Get Merge Ring
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Privacy Policy ════════════════ -->
+  <section id="privacy" class="py-24 border-t border-white/5">
+    <div class="max-w-4xl mx-auto px-6 reveal">
+
+      <div class="flex items-center gap-4 mb-10">
+        <div class="w-8 h-1 rounded-full" style="background: #00d4ff;"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">Privacy Policy</h2>
+      </div>
+
+      <div class="privacy-card rounded-2xl p-8 md:p-12 space-y-8 text-slate-400 leading-relaxed text-sm font-medium">
+
+        <p class="text-slate-500">Effective: February 28, 2026</p>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">1. Introduction</h3>
+          <p>Edson Braz ("Developer", "we", "our") operates <strong class="text-white">Merge Ring</strong>. This Privacy Policy describes how information is handled when you use our app.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">2. Information Stored Locally</h3>
+          <p class="mb-3">All game data is stored on your device only:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Game state and progress (current score, ball positions, next ball value)</li>
+            <li>Game records and player statistics (high scores, games played, highest merge)</li>
+            <li>Settings preferences (haptics, screen shake, swipe sensitivity, selected theme)</li>
+            <li>In-app purchase status (Remove Ads, Pro Themes)</li>
+            <li>Saved game state for resume functionality</li>
+          </ul>
+          <p class="mt-3">We do not create user accounts, and we do not collect personal information.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">3. Third-Party Services</h3>
+
+          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
+            <h4 class="text-white font-semibold">Google AdMob</h4>
+            <p>We use Google AdMob to display banner advertisements and interstitial ads between games. We do not use rewarded ads.</p>
+            <p>When ads are displayed, Google may collect: IP address, device identifiers, ad interaction data, and performance/crash diagnostics.</p>
+            <p>Users who purchase Remove Ads will never see advertisements, and AdMob is completely deactivated for those users.</p>
+            <p>See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #00d4ff;" class="hover:underline">Google's Privacy Policy</a>.</p>
+          </div>
+
+          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
+            <h4 class="text-white font-semibold">Apple StoreKit</h4>
+            <p>In-app purchases are processed by Apple through StoreKit 2. We offer two one-time purchases: Remove Ads and Pro Themes. The Developer does not receive, store, or process any payment information.</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">4. App Tracking Transparency</h3>
+          <p>Merge Ring requests App Tracking Transparency (ATT) consent before initializing the AdMob SDK. If you decline tracking, ads will still appear but will not be personalized. Purchasing Remove Ads eliminates all advertising and related data collection entirely.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">5. How Information Is Used</h3>
+          <p>Local data is used solely to save your game progress, statistics, and preferences. Advertising data is used by Google to serve ads. We do not profile users, engage in cross-app tracking, or use data for marketing purposes.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">6. Data Sharing</h3>
+          <p>We do not sell, trade, or rent your data. The only third party that receives data is Google, through the AdMob SDK, and only for users who have not purchased Remove Ads. Users who purchase Remove Ads have zero third-party data sharing.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">7. Children's Privacy</h3>
+          <p>Merge Ring is rated 4+ and is suitable for all ages. We do not collect personal information from any user, including children. No registration or account creation is required to play. Parents and guardians can eliminate all advertisements and third-party data collection by purchasing Remove Ads.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">8. Data Retention and Deletion</h3>
+          <p>All game data is stored locally on your device and is automatically deleted when you uninstall the app. Any data collected by third-party services (Google AdMob) is subject to their respective retention policies. We do not maintain any server-side databases.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">9. Your Rights</h3>
+          <p>Because no data is stored on our servers, there is no server-side data to request or delete. To remove all local game data, simply uninstall the app. To opt out of personalized advertising, adjust your settings in iOS Settings &gt; Privacy &amp; Security &gt; Tracking. To eliminate all third-party data collection entirely, purchase Remove Ads.</p>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-2 text-base">10. Changes to This Privacy Policy</h3>
+          <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
+        </div>
+
+        <div class="pt-8 border-t border-white/5">
+          <h3 class="text-white font-bold mb-2 text-base">11. Contact</h3>
+          <p>If you have questions about this Privacy Policy, contact us:</p>
+          <p class="mt-2"><strong class="text-white">Edson Braz</strong> — <a href="mailto:edsonluizbraz@gmail.com" style="color: #00d4ff;" class="hover:underline">edsonluizbraz@gmail.com</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Footer ════════════════ -->
+  <footer class="py-12 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-widest text-slate-600">
+    <div class="max-w-6xl mx-auto px-6 space-y-2">
+      <p>&copy; 2026 Edson Braz. All rights reserved.</p>
+      <p><a href="#privacy" class="hover:text-slate-400 transition-colors">Privacy Policy</a> &ensp;|&ensp; <a href="/support/" class="hover:text-slate-400 transition-colors">Support</a></p>
+      <p class="opacity-50">Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

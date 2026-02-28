@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — Edson Braz</title>
+  <meta name="description" content="Need help with one of our apps? Get in touch with the developer.">
+  <meta name="theme-color" content="#050b18">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Support — Edson Braz">
+  <meta property="og:description" content="Need help with one of our apps? Get in touch with the developer.">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #050b18;
+      --accent-blue: #38bdf8;
+      --accent-gold: #fbbf24;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: white;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ── Atmospheric glows ── */
+    .glow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.08) 0%, transparent 40%);
+      animation: glow-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── Navigation ── */
+    .nav-blur {
+      background: rgba(5, 11, 24, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ── Glass cards ── */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-6px);
+    }
+
+    /* ── Hero gradient text ── */
+    .hero-gradient-text {
+      background: linear-gradient(to bottom right, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; color: #111; }
+      .glow-bg, nav, footer { display: none !important; }
+      .hero-gradient-text {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #111;
+      }
+      section { padding-top: 24px !important; padding-bottom: 24px !important; }
+      .glass-card { background: none; border: 1px solid #ccc; }
+      h2, h3, h4, strong { color: #111 !important; }
+      p, ul, li { color: #222 !important; }
+      a { color: #0066cc !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- ════════════════ Navigation ════════════════ -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="text-lg font-black tracking-tight hover:opacity-80 transition-opacity">Edson <span class="text-sky-400">Braz</span></a>
+      <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════ Hero ════════════════ -->
+  <section class="pt-32 pb-20 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[10px] font-black mb-6 tracking-widest uppercase">
+        We're here to help
+      </div>
+
+      <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
+        Support
+      </h1>
+
+      <p class="text-lg text-slate-400 mb-14 max-w-xl mx-auto leading-relaxed font-medium">
+        Have a question, found a bug, or need help with one of our apps? Reach out and we'll get back to you as soon as possible.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ════════════════ Contact Card ════════════════ -->
+  <section class="pb-32 px-6">
+    <div class="max-w-xl mx-auto reveal">
+      <div class="glass-card p-10 rounded-[2.5rem] text-center">
+
+        <div class="text-4xl mb-4">
+          <svg class="w-12 h-12 mx-auto text-sky-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        </div>
+
+        <h2 class="text-2xl font-black mb-3">Email Us</h2>
+        <p class="text-slate-400 font-medium mb-6">Send us an email and we'll respond within a few business days.</p>
+        <a href="mailto:edsonluizbraz@gmail.com" class="inline-block bg-sky-500 text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:bg-sky-400 hover:scale-105 transition-all">
+          edsonluizbraz@gmail.com
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Footer ════════════════ -->
+  <footer class="py-12 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-widest text-slate-600">
+    <div class="max-w-6xl mx-auto px-6">
+      <p>&copy; 2026 Edson Braz. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
