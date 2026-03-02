@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merge Ring — Swipe, Collide & Merge</title>
-  <meta name="description" content="Swipe, collide, and merge your way to 2048 in a circular arena! Physics-based merge arcade game for iOS.">
+  <title>Gap Runner — Shrink, Dodge & Survive</title>
+  <meta name="description" content="Navigate a glowing ball through gaps in oncoming walls. Shrink to squeeze through tight spaces, but watch your energy. 100 zones of increasing intensity. Free on iOS.">
   <meta name="theme-color" content="#0a0a15">
   <link rel="icon" type="image/png" href="logo.png">
   <meta name="apple-itunes-app" content="app-id=XXXXXXXXX">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Merge Ring — Swipe, Collide & Merge">
-  <meta property="og:description" content="Swipe numbered balls across a circular arena. When same-valued balls collide, they merge — all the way to 2048. Free on iOS.">
+  <meta property="og:title" content="Gap Runner — Shrink, Dodge & Survive">
+  <meta property="og:description" content="Navigate a glowing ball through gaps in oncoming walls. Shrink to squeeze through tight spaces, but watch your energy. 100 zones of increasing intensity. Free on iOS.">
   <meta property="og:image" content="logo.png">
   <meta property="og:type" content="website">
 
@@ -123,12 +123,12 @@
       z-index: 10;
     }
 
-    /* ── SVG arena ring pulse ── */
-    .arena-ring-pulse { animation: ring-pulse 3s ease-in-out infinite; }
+    /* ── Ball trail animation ── */
+    .ball-trail-pulse { animation: trail-pulse 2.5s ease-in-out infinite; }
 
-    @keyframes ring-pulse {
-      0%, 100% { stroke-opacity: 0.7; }
-      50% { stroke-opacity: 0.4; }
+    @keyframes trail-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.15; }
     }
 
     /* ── Float ── */
@@ -189,16 +189,20 @@
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg shadow-lg">
-        <span class="text-lg font-black tracking-tight">Merge <span style="color: #00d4ff;">Ring</span></span>
+        <span class="text-lg font-black tracking-tight">Gap <span style="color: #00d4ff;">Runner</span></span>
       </div>
       <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
         <a href="#hero" class="hover:text-white transition-colors">Game</a>
         <a href="#how" class="hover:text-white transition-colors">How to Play</a>
         <a href="#privacy" class="hover:text-white transition-colors">Privacy</a>
-        <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="text-white px-5 py-2 rounded-full font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
+        <a href="https://apps.apple.com/app/gap-runner/idXXXXXXXXX" class="text-white px-5 py-2 rounded-full font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
       </div>
       <!-- Mobile menu button -->
-      <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="md:hidden text-white px-4 py-1.5 rounded-full text-xs font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
+      <div class="md:hidden flex items-center gap-3">
+        <a href="/" class="font-bold text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Home</a>
+        <a href="https://apps.apple.com/app/gap-runner/idXXXXXXXXX" class="text-white px-4 py-1.5 rounded-full text-xs font-black hover:opacity-80 transition-all" style="background: #00d4ff;">Download</a>
+      </div>
     </div>
   </nav>
 
@@ -209,20 +213,20 @@
       <!-- Left column: text -->
       <div class="text-center lg:text-left">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-black mb-6 tracking-widest uppercase" style="background: rgba(217, 166, 33, 0.10); border-color: rgba(217, 166, 33, 0.20); color: #d9a621;">
-          Swipe, Collide & Merge
+          Shrink, Dodge & Survive
         </div>
 
         <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
-          Merge<br>
-          <span style="-webkit-text-fill-color: #00d4ff;">Ring</span>
+          Gap<br>
+          <span style="-webkit-text-fill-color: #00d4ff;">Runner</span>
         </h1>
 
         <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-          Swipe numbered balls across a circular arena powered by real physics. When same-valued balls collide, they merge — 2 becomes 4, 4 becomes 8, all the way to 2048.
+          Navigate a glowing ball through gaps in oncoming walls. Shrink to squeeze through tight spaces, but watch your energy — the smaller you get, the faster it drains. 100 zones of increasing intensity.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
-          <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="app-store-badge transition-transform hover:scale-105">
+          <a href="https://apps.apple.com/app/gap-runner/idXXXXXXXXX" class="app-store-badge transition-transform hover:scale-105">
             <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="h-14">
           </a>
           <div class="hero-meta-line text-xs font-bold text-slate-500 uppercase tracking-widest">
@@ -235,7 +239,7 @@
       <div class="flex justify-center relative mt-10 lg:mt-0">
         <div class="phone-glow absolute -z-10 w-72 h-72 blur-[80px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="background: rgba(0, 212, 255, 0.30);"></div>
         <div class="iphone-mockup floating">
-          <img src="screenshot.png" alt="Merge Ring gameplay" class="iphone-screen">
+          <img src="screenshot.png" alt="Gap Runner gameplay" class="iphone-screen">
         </div>
       </div>
 
@@ -253,132 +257,133 @@
 
       <div class="grid md:grid-cols-2 gap-12 items-start">
 
-        <!-- Left: Inline arena SVG -->
+        <!-- Left: Inline gameplay SVG -->
         <div class="flex justify-center reveal">
-          <svg class="w-48 md:w-56" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-label="Merge Ring arena illustration">
+          <svg class="w-48 md:w-56" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-label="Gap Runner gameplay illustration">
             <defs>
-              <radialGradient id="mr-bg" cx="50%" cy="50%" r="70%">
+              <radialGradient id="gr-bg" cx="50%" cy="50%" r="70%">
                 <stop offset="0%" stop-color="#0d1a2e"/>
                 <stop offset="100%" stop-color="#080812"/>
               </radialGradient>
-              <radialGradient id="mr-arena-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="70%" stop-color="transparent"/>
-                <stop offset="85%" stop-color="#00d4ff" stop-opacity="0.12"/>
-                <stop offset="95%" stop-color="#00d4ff" stop-opacity="0.05"/>
+              <!-- Ball glow -->
+              <radialGradient id="gr-ball-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.6"/>
+                <stop offset="60%" stop-color="#00d4ff" stop-opacity="0.15"/>
                 <stop offset="100%" stop-color="transparent"/>
               </radialGradient>
-              <filter id="mr-ring-glow">
+              <radialGradient id="gr-ball" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#66eeff"/>
+                <stop offset="100%" stop-color="#0088aa"/>
+              </radialGradient>
+              <!-- Energy orb -->
+              <radialGradient id="gr-orb" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#ffe066"/>
+                <stop offset="100%" stop-color="#d9a621"/>
+              </radialGradient>
+              <!-- Wall gradient -->
+              <linearGradient id="gr-wall" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff4466" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#cc2244" stop-opacity="0.7"/>
+              </linearGradient>
+              <linearGradient id="gr-wall2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff6644" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#cc4422" stop-opacity="0.7"/>
+              </linearGradient>
+              <!-- Filters -->
+              <filter id="gr-glow">
+                <feGaussianBlur stdDeviation="12" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="gr-soft-glow">
                 <feGaussianBlur stdDeviation="20" result="blur"/>
                 <feMerge>
                   <feMergeNode in="blur"/>
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
-              <filter id="mr-ball-soft">
-                <feGaussianBlur stdDeviation="8" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
+              <filter id="gr-shadow">
+                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.5"/>
               </filter>
-              <filter id="mr-ball-shadow">
-                <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
-              </filter>
-              <filter id="mr-hero-glow">
-                <feGaussianBlur stdDeviation="18" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <radialGradient id="mr-ball-256" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#a8b8e8"/>
-                <stop offset="100%" stop-color="#4858a0"/>
-              </radialGradient>
-              <radialGradient id="mr-ball-512" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#c898d8"/>
-                <stop offset="100%" stop-color="#8048a0"/>
-              </radialGradient>
-              <radialGradient id="mr-ball-1024" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#e8a088"/>
-                <stop offset="100%" stop-color="#b06040"/>
-              </radialGradient>
-              <radialGradient id="mr-ball-2048" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#ffe066"/>
-                <stop offset="50%" stop-color="#d9a621"/>
-                <stop offset="100%" stop-color="#a07818"/>
-              </radialGradient>
-              <radialGradient id="mr-hero-aura" cx="50%" cy="50%" r="50%">
-                <stop offset="60%" stop-color="transparent"/>
-                <stop offset="80%" stop-color="#d9a621" stop-opacity="0.12"/>
-                <stop offset="100%" stop-color="#d9a621" stop-opacity="0"/>
-              </radialGradient>
             </defs>
 
-            <rect width="1024" height="1024" rx="220" fill="url(#mr-bg)"/>
-            <circle cx="512" cy="512" r="490" fill="url(#mr-arena-glow)"/>
+            <rect width="1024" height="1024" rx="220" fill="url(#gr-bg)"/>
 
-            <!-- Arena ring with pulse animation -->
-            <circle class="arena-ring-pulse" cx="512" cy="512" r="435" fill="none" stroke="#00d4ff" stroke-width="13" stroke-opacity="0.7" filter="url(#mr-ring-glow)"/>
-            <circle cx="512" cy="512" r="435" fill="none" stroke="#00d4ff" stroke-width="4" stroke-opacity="0.35"/>
-            <circle cx="512" cy="512" r="310" fill="none" stroke="#00d4ff" stroke-width="2.5" stroke-opacity="0.1" stroke-dasharray="18 28"/>
-
-            <!-- Motion trails -->
-            <path d="M756 300 Q700 410 680 460" stroke="#a8b8e8" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
-            <path d="M728 670 Q660 580 610 540" stroke="#c898d8" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
-            <path d="M300 560 Q380 530 440 510" stroke="#e8a088" stroke-width="6" stroke-opacity="0.25" fill="none" stroke-linecap="round"/>
-
-            <!-- Ball: 256 -->
-            <g filter="url(#mr-ball-shadow)">
-              <circle cx="758" cy="296" r="82" fill="url(#mr-ball-256)" filter="url(#mr-ball-soft)"/>
-              <circle cx="758" cy="296" r="82" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
-              <text x="758" y="318" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="52" fill="#ffffff">256</text>
+            <!-- Background wall (far) -->
+            <g opacity="0.3">
+              <rect x="820" y="60" width="55" height="340" rx="12" fill="url(#gr-wall2)"/>
+              <rect x="820" y="540" width="55" height="424" rx="12" fill="url(#gr-wall2)"/>
             </g>
 
-            <!-- Ball: 512 -->
-            <g filter="url(#mr-ball-shadow)">
-              <circle cx="730" cy="710" r="98" fill="url(#mr-ball-512)" filter="url(#mr-ball-soft)"/>
-              <circle cx="730" cy="710" r="98" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
-              <text x="730" y="735" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="58" fill="#ffffff">512</text>
+            <!-- Mid wall -->
+            <g opacity="0.6" filter="url(#gr-shadow)">
+              <rect x="620" y="60" width="60" height="300" rx="14" fill="url(#gr-wall)"/>
+              <rect x="620" y="580" width="60" height="384" rx="14" fill="url(#gr-wall)"/>
             </g>
 
-            <!-- Ball: 1024 -->
-            <g filter="url(#mr-ball-shadow)">
-              <circle cx="260" cy="555" r="112" fill="url(#mr-ball-1024)" filter="url(#mr-ball-soft)"/>
-              <circle cx="260" cy="555" r="112" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2"/>
-              <text x="260" y="582" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="700" font-size="60" fill="#ffffff">1024</text>
+            <!-- Foreground wall (closest) — the gap the ball threads through -->
+            <g filter="url(#gr-shadow)">
+              <rect x="420" y="60" width="65" height="330" rx="16" fill="url(#gr-wall)"/>
+              <rect x="420" y="610" width="65" height="354" rx="16" fill="url(#gr-wall)"/>
+              <!-- Gap glow -->
+              <line x1="452" y1="395" x2="452" y2="605" stroke="#00d4ff" stroke-width="2" stroke-opacity="0.15"/>
             </g>
 
-            <!-- 2048 aura + ball -->
-            <circle cx="512" cy="490" r="240" fill="url(#mr-hero-aura)"/>
-            <g filter="url(#mr-ball-shadow)">
-              <circle cx="512" cy="490" r="162" fill="url(#mr-ball-2048)" filter="url(#mr-hero-glow)"/>
-              <circle cx="512" cy="490" r="162" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3"/>
-              <text x="512" y="520" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="800" font-size="80" fill="#ffffff">2048</text>
+            <!-- Motion trails behind ball -->
+            <g class="ball-trail-pulse">
+              <ellipse cx="290" cy="500" rx="80" ry="6" fill="#00d4ff" opacity="0.2"/>
+              <ellipse cx="260" cy="500" rx="60" ry="4" fill="#00d4ff" opacity="0.15"/>
+              <ellipse cx="230" cy="500" rx="40" ry="3" fill="#00d4ff" opacity="0.1"/>
+            </g>
+
+            <!-- Ball aura -->
+            <circle cx="340" cy="500" r="120" fill="url(#gr-ball-glow)"/>
+
+            <!-- The player ball — threading through the gap -->
+            <g filter="url(#gr-glow)">
+              <circle cx="340" cy="500" r="52" fill="url(#gr-ball)"/>
+              <circle cx="340" cy="500" r="52" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2"/>
+              <!-- Inner highlight -->
+              <circle cx="325" cy="485" r="16" fill="#ffffff" opacity="0.15"/>
+            </g>
+
+            <!-- Energy orb floating ahead -->
+            <g filter="url(#gr-glow)">
+              <circle cx="560" cy="480" r="22" fill="url(#gr-orb)"/>
+              <circle cx="560" cy="480" r="22" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+              <circle cx="553" cy="473" r="6" fill="#ffffff" opacity="0.2"/>
             </g>
 
             <!-- Sparkle particles -->
-            <circle cx="615" cy="355" r="6" fill="#00d4ff" opacity="0.5"/>
-            <circle cx="385" cy="400" r="5" fill="#00d4ff" opacity="0.4"/>
-            <circle cx="640" cy="610" r="6.5" fill="#c898d8" opacity="0.35"/>
-            <circle cx="400" cy="700" r="5" fill="#00d4ff" opacity="0.3"/>
-            <circle cx="340" cy="310" r="4" fill="#a8b8e8" opacity="0.35"/>
-            <circle cx="680" cy="480" r="4.5" fill="#ffe066" opacity="0.3"/>
-            <circle cx="450" cy="680" r="3.5" fill="#00d4ff" opacity="0.3"/>
-            <circle cx="580" cy="280" r="4" fill="#00d4ff" opacity="0.3"/>
+            <circle cx="380" cy="430" r="4" fill="#00d4ff" opacity="0.5"/>
+            <circle cx="400" cy="560" r="3.5" fill="#00d4ff" opacity="0.4"/>
+            <circle cx="310" cy="450" r="3" fill="#00d4ff" opacity="0.35"/>
+            <circle cx="370" cy="540" r="4.5" fill="#ffe066" opacity="0.3"/>
+            <circle cx="500" cy="440" r="3" fill="#ff4466" opacity="0.3"/>
+            <circle cx="480" cy="560" r="3.5" fill="#ff4466" opacity="0.25"/>
+            <circle cx="700" cy="420" r="3" fill="#ff6644" opacity="0.2"/>
+            <circle cx="730" cy="530" r="2.5" fill="#ff6644" opacity="0.2"/>
+
+            <!-- Direction arrow hint -->
+            <g opacity="0.25">
+              <line x1="170" y1="500" x2="280" y2="500" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+              <polyline points="265,488 280,500 265,512" fill="none" stroke="#00d4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
           </svg>
         </div>
 
         <!-- Right: description -->
         <div class="space-y-6 reveal">
           <p class="text-slate-400 leading-relaxed font-medium text-lg">
-            <strong class="text-white">Swipe to launch</strong> a numbered ball across the circular arena. Control the direction and force with your finger — a quick flick sends it flying, a gentle swipe rolls it into position. Your swipe force directly controls the speed.
+            <strong class="text-white">Hold to shrink</strong> your glowing ball to squeeze through narrow gaps between oncoming wall segments. Release to grow back to full size. The tighter the gap, the smaller you need to be — and the more precise your timing.
           </p>
           <p class="text-slate-400 leading-relaxed font-medium text-lg">
-            When two balls with the <strong class="text-white">same value collide, they merge</strong> into one with double the value. 2 becomes 4, 4 becomes 8, 8 becomes 16 — keep merging all the way up to <strong class="text-white">2048</strong> and beyond.
+            <strong class="text-white">Manage your energy</strong> carefully — shrinking drains it fast. Collect golden orbs to recharge. Your energy bar shifts from green to red as it depletes. Hit zero and you can't shrink anymore — leaving you vulnerable.
           </p>
           <p class="text-slate-400 leading-relaxed font-medium text-lg">
-            Balls <strong class="text-white">bounce off the arena walls</strong> and each other with realistic physics. Plan your shots carefully — the arena fills up fast. When <strong class="text-white">12 balls</strong> fill the ring with no merges possible, it's game over.
+            Survive through <strong class="text-white">100 progressive zones</strong> where walls accelerate and gaps tighten. Grab power-ups — <strong class="text-white">shield, slow-mo, double points, and ghost</strong> — to push further. Milestone celebrations at zones 25, 50, 75, and 100.
           </p>
         </div>
 
@@ -397,50 +402,47 @@
 
       <div class="grid md:grid-cols-2 gap-8">
         <div class="glass-card p-10 rounded-[2.5rem] reveal">
-          <div class="text-4xl mb-4">&#9881;</div>
-          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">Real Physics</h3>
+          <div class="text-4xl mb-4">&#9757;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">One-Touch Control</h3>
           <p class="text-slate-400 leading-relaxed font-medium">
-            A 120 Hz physics engine powers every collision. Balls bounce with elastic momentum, ricochet off walls, and transfer energy on impact. Your swipe force controls the speed — master it to line up chain reactions.
+            Hold to shrink, release to grow. One finger is all you need. Simple to learn, but mastering the timing between gaps takes real skill — every millisecond counts.
           </p>
         </div>
         <div class="glass-card p-10 rounded-[2.5rem] reveal">
-          <div class="text-4xl mb-4">&#127921;</div>
-          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">2048 Meets Billiards</h3>
+          <div class="text-4xl mb-4">&#127937;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">100 Progressive Zones</h3>
           <p class="text-slate-400 leading-relaxed font-medium">
-            The addictive number-merging progression of 2048 combined with billiards-style flick controls. Every shot matters — angle your merges, bank off walls, and chain combos to climb the leaderboard.
+            Walls accelerate, gaps narrow, colors shift. Each zone brings a new challenge. Milestone celebrations fire at zones 25, 50, 75, and 100 — can you beat them all?
           </p>
         </div>
         <div class="glass-card p-10 rounded-[2.5rem] reveal">
-          <div class="text-4xl mb-4">&#127912;</div>
-          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">6 Visual Themes</h3>
+          <div class="text-4xl mb-4">&#127925;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: #00d4ff;">Procedural Audio</h3>
           <p class="text-slate-400 leading-relaxed font-medium">
-            Play in the free Classic theme or unlock 5 Pro themes with unique color palettes and visual styles. Every theme is designed for dark mode — easy on the eyes, day or night.
+            Every sound is synthesized in real-time — no audio files in the entire game. Music adapts from 140 to 180 BPM as intensity builds. The soundtrack is never the same twice.
           </p>
         </div>
         <div class="glass-card p-10 rounded-[2.5rem] reveal">
           <div class="text-4xl mb-4">&#128171;</div>
-          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">Feel Every Hit</h3>
+          <h3 class="text-2xl font-black mb-3" style="color: #d9a621;">Feel Every Gap</h3>
           <p class="text-slate-400 leading-relaxed font-medium">
-            Haptic feedback pulses with every collision and merge. Dynamic sound effects react to impact force. Save and resume anytime — no internet required. Just you, the ring, and physics.
+            Haptic feedback pulses on wall passes, close calls, and power-up pickups. Four power-up types — shield, slow-mo, double points, and ghost — each with distinct tactile feedback.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════ In-App Purchases ════════════════ -->
+  <!-- ════════════════ Completely Free ════════════════ -->
   <section id="iap" class="py-24">
     <div class="max-w-4xl mx-auto px-6">
       <div class="glass-card p-12 rounded-[3rem] text-center reveal" style="border-color: rgba(217, 166, 33, 0.20);">
-        <h2 class="text-3xl font-black mb-4">Play Your Way</h2>
+        <h2 class="text-3xl font-black mb-4">Completely Free</h2>
         <p class="text-slate-400 mb-8 max-w-lg mx-auto font-medium leading-relaxed">
-          The full game is free. Want a cleaner experience? <strong class="text-white">Remove Ads</strong> with a one-time $2.99 purchase — no more banners, ever. Love customization? Unlock <strong class="text-white">Pro Themes</strong> for 5 premium visual styles.
+          Gap Runner is <strong class="text-white">100% free</strong>. No ads, no in-app purchases, no accounts. Just you and the gaps. Every zone, every power-up, every feature — unlocked from the start.
         </p>
-        <p class="text-slate-500 text-sm mb-8 font-medium">
-          Both are one-time purchases. No subscriptions.
-        </p>
-        <a href="https://apps.apple.com/app/merge-ring/idXXXXXXXXX" class="inline-block text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform" style="background: #d9a621; color: #1a1200;">
-          Get Merge Ring
+        <a href="https://apps.apple.com/app/gap-runner/idXXXXXXXXX" class="inline-block text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform" style="background: #d9a621; color: #1a1200;">
+          Get Gap Runner
         </a>
       </div>
     </div>
@@ -461,18 +463,16 @@
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">1. Introduction</h3>
-          <p>Edson Braz ("Developer", "we", "our") operates <strong class="text-white">Merge Ring</strong>. This Privacy Policy describes how information is handled when you use our app.</p>
+          <p>Edson Braz ("Developer", "we", "our") operates <strong class="text-white">Gap Runner</strong>. This Privacy Policy describes how information is handled when you use our app.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">2. Information Stored Locally</h3>
           <p class="mb-3">All game data is stored on your device only:</p>
           <ul class="list-disc pl-5 space-y-1">
-            <li>Game state and progress (current score, ball positions, next ball value)</li>
-            <li>Game records and player statistics (high scores, games played, highest merge)</li>
-            <li>Settings preferences (haptics, screen shake, swipe sensitivity, selected theme)</li>
-            <li>In-app purchase status (Remove Ads, Pro Themes)</li>
-            <li>Saved game state for resume functionality</li>
+            <li>High scores and zone progression records</li>
+            <li>Settings preferences (sound, music, haptics)</li>
+            <li>Close call counts (used for achievement tracking)</li>
           </ul>
           <p class="mt-3">We do not create user accounts, and we do not collect personal information.</p>
         </div>
@@ -481,47 +481,41 @@
           <h3 class="text-white font-bold mb-2 text-base">3. Third-Party Services</h3>
 
           <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
-            <h4 class="text-white font-semibold">Google AdMob</h4>
-            <p>We use Google AdMob to display banner advertisements and interstitial ads between games. We do not use rewarded ads.</p>
-            <p>When ads are displayed, Google may collect: IP address, device identifiers, ad interaction data, and performance/crash diagnostics.</p>
-            <p>Users who purchase Remove Ads will never see advertisements, and AdMob is completely deactivated for those users.</p>
-            <p>See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #00d4ff;" class="hover:underline">Google's Privacy Policy</a>.</p>
-          </div>
-
-          <div class="sub-section ml-4 pl-4 mt-4 mb-4 space-y-2">
-            <h4 class="text-white font-semibold">Apple StoreKit</h4>
-            <p>In-app purchases are processed by Apple through StoreKit 2. We offer two one-time purchases: Remove Ads and Pro Themes. The Developer does not receive, store, or process any payment information.</p>
+            <h4 class="text-white font-semibold">Apple Game Center</h4>
+            <p>Gap Runner integrates with Apple Game Center to provide leaderboards and achievements. When you sign in to Game Center, Apple may process your player display name and gameplay data (high score, highest zone reached, achievement progress).</p>
+            <p>We submit two leaderboards (high score, highest zone) and 10 achievements (zone milestones, score milestones, power-up collection, close calls). This data is processed by Apple according to their privacy practices.</p>
+            <p>See <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer" style="color: #00d4ff;" class="hover:underline">Apple's Privacy Policy</a>.</p>
           </div>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">4. App Tracking Transparency</h3>
-          <p>Merge Ring requests App Tracking Transparency (ATT) consent before initializing the AdMob SDK. If you decline tracking, ads will still appear but will not be personalized. Purchasing Remove Ads eliminates all advertising and related data collection entirely.</p>
+          <p>Gap Runner does not track users across other apps or websites. We do not use any advertising SDKs and do not request App Tracking Transparency (ATT) consent because there is no tracking to consent to.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">5. How Information Is Used</h3>
-          <p>Local data is used solely to save your game progress, statistics, and preferences. Advertising data is used by Google to serve ads. We do not profile users, engage in cross-app tracking, or use data for marketing purposes.</p>
+          <p>Local data is used solely to save your game progress and preferences. Game Center data is used to display leaderboards and track achievement progress. We do not profile users, engage in cross-app tracking, or use data for marketing purposes.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">6. Data Sharing</h3>
-          <p>We do not sell, trade, or rent your data. The only third party that receives data is Google, through the AdMob SDK, and only for users who have not purchased Remove Ads. Users who purchase Remove Ads have zero third-party data sharing.</p>
+          <p>We do not sell, trade, or rent your data. The only third party that receives gameplay data is Apple, through Game Center, for leaderboard and achievement functionality.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">7. Children's Privacy</h3>
-          <p>Merge Ring is rated 4+ and is suitable for all ages. We do not collect personal information from any user, including children. No registration or account creation is required to play. Parents and guardians can eliminate all advertisements and third-party data collection by purchasing Remove Ads.</p>
+          <p>Gap Runner is rated 4+ and is suitable for all ages. We do not collect personal information from any user, including children. No registration or account creation is required to play.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">8. Data Retention and Deletion</h3>
-          <p>All game data is stored locally on your device and is automatically deleted when you uninstall the app. Any data collected by third-party services (Google AdMob) is subject to their respective retention policies. We do not maintain any server-side databases.</p>
+          <p>All game data is stored locally on your device and is automatically deleted when you uninstall the app. Game Center data (leaderboard scores and achievements) is managed by Apple and subject to their retention policies. We do not maintain any server-side databases.</p>
         </div>
 
         <div>
           <h3 class="text-white font-bold mb-2 text-base">9. Your Rights</h3>
-          <p>Because no data is stored on our servers, there is no server-side data to request or delete. To remove all local game data, simply uninstall the app. To opt out of personalized advertising, adjust your settings in iOS Settings &gt; Privacy &amp; Security &gt; Tracking. To eliminate all third-party data collection entirely, purchase Remove Ads.</p>
+          <p>Because no data is stored on our servers, there is no server-side data to request or delete. To remove all local game data, simply uninstall the app. To manage Game Center data, visit your Apple ID settings.</p>
         </div>
 
         <div>
