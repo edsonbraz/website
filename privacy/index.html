@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH3WERM6RH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KH3WERM6RH');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Edson Braz</title>
+  <meta name="description" content="Privacy Policy for all games and apps developed by Edson Braz, including Bottle Sort Relay, Gap Runner, and Merge Ring.">
+  <meta name="theme-color" content="#050b18">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Privacy Policy — Edson Braz">
+  <meta property="og:description" content="Privacy Policy for all games and apps developed by Edson Braz.">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #050b18;
+      --accent-blue: #38bdf8;
+      --accent-gold: #fbbf24;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: white;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ── Atmospheric glows ── */
+    .glow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.08) 0%, transparent 40%);
+      animation: glow-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── Navigation ── */
+    .nav-blur {
+      background: rgba(5, 11, 24, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ── Glass cards ── */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* ── Privacy section styling ── */
+    .privacy-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sub-section {
+      border-left: 2px solid rgba(0, 212, 255, 0.15);
+    }
+
+    /* ── Hero gradient text ── */
+    .hero-gradient-text {
+      background: linear-gradient(to bottom right, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Table of contents ── */
+    .toc a {
+      color: #00d4ff;
+      transition: opacity 0.2s;
+    }
+    .toc a:hover {
+      opacity: 0.7;
+    }
+
+    /* ── Game badge ── */
+    .game-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; color: #111; }
+      .glow-bg, nav, footer { display: none !important; }
+      .hero-gradient-text {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #111;
+      }
+      section { padding-top: 24px !important; padding-bottom: 24px !important; }
+      .glass-card, .privacy-card { background: none; border: 1px solid #ccc; }
+      h2, h3, h4, strong { color: #111 !important; }
+      p, ul, li { color: #222 !important; }
+      a { color: #0066cc !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- ════════════════ Navigation ════════════════ -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="text-lg font-black tracking-tight hover:opacity-80 transition-opacity">Edson <span class="text-sky-400">Braz</span></a>
+      <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <a href="/support/" class="hover:text-white transition-colors">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════ Hero ════════════════ -->
+  <section class="pt-32 pb-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[10px] font-black mb-6 tracking-widest uppercase">
+        Your Privacy Matters
+      </div>
+
+      <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
+        Privacy Policy
+      </h1>
+
+      <p class="text-lg text-slate-400 mb-6 max-w-xl mx-auto leading-relaxed font-medium">
+        This policy covers all games and apps developed by Edson Braz. We believe in transparency and keeping things simple.
+      </p>
+
+      <p class="text-sm text-slate-500 font-medium">Effective: March 15, 2026</p>
+
+    </div>
+  </section>
+
+  <!-- ════════════════ Covered Apps ════════════════ -->
+  <section class="pb-8 px-6">
+    <div class="max-w-4xl mx-auto reveal">
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="game-badge bg-sky-500/10 border border-sky-500/20 text-sky-400">Bottle Sort Relay</span>
+        <span class="game-badge bg-rose-500/10 border border-rose-500/20 text-rose-400">Fall Catch</span>
+        <span class="game-badge bg-amber-500/10 border border-amber-500/20 text-amber-400">Gap Runner</span>
+        <span class="game-badge bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Merge Ring</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Table of Contents ════════════════ -->
+  <section class="pb-12 px-6">
+    <div class="max-w-4xl mx-auto reveal">
+      <div class="glass-card rounded-2xl p-8 toc">
+        <h2 class="text-white font-bold text-sm uppercase tracking-widest mb-4">Contents</h2>
+        <ol class="list-decimal list-inside space-y-2 text-sm font-medium">
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#what-we-dont-collect">What We Don't Collect</a></li>
+          <li><a href="#local-storage">Information Stored Locally</a></li>
+          <li><a href="#third-party">Third-Party Services</a></li>
+          <li><a href="#att">App Tracking Transparency</a></li>
+          <li><a href="#data-usage">How Information Is Used</a></li>
+          <li><a href="#data-sharing">Data Sharing</a></li>
+          <li><a href="#children">Children's Privacy</a></li>
+          <li><a href="#retention">Data Retention and Deletion</a></li>
+          <li><a href="#your-rights">Your Rights</a></li>
+          <li><a href="#changes">Changes to This Policy</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Privacy Policy Content ════════════════ -->
+  <section class="pb-32 px-6">
+    <div class="max-w-4xl mx-auto reveal">
+      <div class="privacy-card rounded-2xl p-8 md:p-12 space-y-10 text-slate-400 leading-relaxed text-sm font-medium">
+
+        <!-- 1. Introduction -->
+        <div id="introduction">
+          <h3 class="text-white font-bold mb-3 text-base">1. Introduction</h3>
+          <p>Edson Braz ("Developer", "we", "our") develops and publishes mobile games for iOS. This Privacy Policy describes how information is handled across all of our apps, including <strong class="text-white">Bottle Sort Relay</strong>, <strong class="text-white">Fall Catch</strong>, <strong class="text-white">Gap Runner</strong>, and <strong class="text-white">Merge Ring</strong>.</p>
+          <p class="mt-3">Our games fall into two categories:</p>
+          <ul class="list-disc pl-5 space-y-1 mt-2">
+            <li><strong class="text-white">Ad-supported games</strong> — Bottle Sort Relay, Fall Catch, Merge Ring (free to play with optional in-app purchases to remove ads)</li>
+            <li><strong class="text-white">Ad-free games</strong> — Gap Runner (no advertisements)</li>
+          </ul>
+          <p class="mt-3">The sections below explain what applies to each type. Where a section only applies to certain games, it is clearly marked.</p>
+        </div>
+
+        <!-- 2. What We Don't Collect -->
+        <div id="what-we-dont-collect">
+          <h3 class="text-white font-bold mb-3 text-base">2. What We Don't Collect</h3>
+          <p class="mb-3">We want to be upfront: we do not collect, store, or process any personal information on our servers. Specifically, we do not collect:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Names, email addresses, or physical addresses</li>
+            <li>Phone numbers or contact lists</li>
+            <li>Photos, camera data, or microphone input</li>
+            <li>Location data (GPS or otherwise)</li>
+            <li>Browsing history or search data</li>
+            <li>Health, fitness, or biometric data</li>
+          </ul>
+          <p class="mt-3">We do not create user accounts, and no registration is required to play any of our games. We do not operate any servers or databases that store user data.</p>
+        </div>
+
+        <!-- 3. Information Stored Locally -->
+        <div id="local-storage">
+          <h3 class="text-white font-bold mb-3 text-base">3. Information Stored Locally</h3>
+          <p class="mb-3">All game data is stored exclusively on your device. This includes:</p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Game state and progress (scores, levels, positions)</li>
+            <li>Player statistics (high scores, games played, achievements)</li>
+            <li>Settings preferences (sound, haptics, visual options)</li>
+            <li>In-app purchase status (where applicable)</li>
+            <li>Saved game state for resume functionality</li>
+          </ul>
+          <p class="mt-3">This data never leaves your device and is not transmitted to us or any third party. It is automatically deleted when you uninstall the app.</p>
+        </div>
+
+        <!-- 4. Third-Party Services -->
+        <div id="third-party">
+          <h3 class="text-white font-bold mb-3 text-base">4. Third-Party Services</h3>
+
+          <div class="sub-section ml-4 pl-4 mt-5 mb-5 space-y-2">
+            <h4 class="text-white font-semibold">Google AdMob</h4>
+            <p class="mb-1">
+              <span class="game-badge bg-sky-500/10 border border-sky-500/20 text-sky-300 text-[10px]">Bottle Sort Relay</span>
+              <span class="game-badge bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px]">Fall Catch</span>
+              <span class="game-badge bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px]">Merge Ring</span>
+            </p>
+            <p>We use Google AdMob to display advertisements. The ad format varies by game:</p>
+            <ul class="list-disc pl-5 space-y-1 mt-2 mb-2">
+              <li><strong class="text-white">Bottle Sort Relay</strong> — rewarded ads only (user-initiated: extra hints, extra undos, bonus time). No banners or interstitials.</li>
+              <li><strong class="text-white">Fall Catch</strong> — banner ads on menus and game-over screens, plus an optional rewarded video to continue after game over.</li>
+              <li><strong class="text-white">Merge Ring</strong> — banner advertisements and interstitial ads between games. No rewarded ads.</li>
+            </ul>
+            <p>When ads are displayed, Google may collect: IP address, device identifiers, ad interaction data, and performance/crash diagnostics.</p>
+            <p>Users who purchase the ad-removal option (<strong class="text-white">Pro upgrade</strong> in Bottle Sort Relay, <strong class="text-white">Remove Ads</strong> in Fall Catch and Merge Ring) will never see advertisements, and AdMob is completely deactivated for those users — eliminating all ad-related data collection.</p>
+            <p>See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #00d4ff;" class="hover:underline">Google's Privacy Policy</a>.</p>
+          </div>
+
+          <div class="sub-section ml-4 pl-4 mt-5 mb-5 space-y-2">
+            <h4 class="text-white font-semibold">Apple StoreKit</h4>
+            <p class="mb-1">
+              <span class="game-badge bg-sky-500/10 border border-sky-500/20 text-sky-300 text-[10px]">Bottle Sort Relay</span>
+              <span class="game-badge bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px]">Fall Catch</span>
+              <span class="game-badge bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px]">Merge Ring</span>
+            </p>
+            <p>In-app purchases are processed entirely by Apple through StoreKit. The Developer does not receive, store, or process any payment or billing information.</p>
+          </div>
+
+          <div class="sub-section ml-4 pl-4 mt-5 mb-5 space-y-2">
+            <h4 class="text-white font-semibold">Apple Game Center</h4>
+            <p class="mb-1">
+              <span class="game-badge bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px]">Fall Catch</span>
+              <span class="game-badge bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[10px]">Gap Runner</span>
+            </p>
+            <p>Fall Catch and Gap Runner integrate with Apple Game Center for leaderboards and achievements. When you sign in to Game Center, Apple may process your player display name and gameplay data. Fall Catch submits three leaderboards (one per difficulty mode). Gap Runner submits two leaderboards (high score, highest zone) and 10 achievements (zone milestones, score milestones, power-up collection, close calls).</p>
+            <p>Game Center is managed entirely by Apple, and any data associated with your Game Center profile is subject to <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer" style="color: #00d4ff;" class="hover:underline">Apple's Privacy Policy</a>.</p>
+          </div>
+        </div>
+
+        <!-- 5. App Tracking Transparency -->
+        <div id="att">
+          <h3 class="text-white font-bold mb-3 text-base">5. App Tracking Transparency</h3>
+          <p class="mb-1">
+            <span class="game-badge bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px]">Fall Catch</span>
+            <span class="game-badge bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px]">Merge Ring</span>
+          </p>
+          <p>Fall Catch and Merge Ring request App Tracking Transparency (ATT) consent before initializing the AdMob SDK, as required by Apple. If you decline tracking, ads will still appear but will not be personalized. Purchasing <strong class="text-white">Remove Ads</strong> eliminates all advertising and related data collection entirely.</p>
+          <p class="mt-3">Bottle Sort Relay uses only user-initiated rewarded ads and does not request ATT consent. Gap Runner does not include any advertising SDK and does not request ATT consent.</p>
+        </div>
+
+        <!-- 6. How Information Is Used -->
+        <div id="data-usage">
+          <h3 class="text-white font-bold mb-3 text-base">6. How Information Is Used</h3>
+          <p>Local data is used solely to save your game progress, statistics, and preferences. Advertising data (in ad-supported games) is used by Google to serve ads. We do not profile users, engage in cross-app tracking, or use data for marketing purposes.</p>
+        </div>
+
+        <!-- 7. Data Sharing -->
+        <div id="data-sharing">
+          <h3 class="text-white font-bold mb-3 text-base">7. Data Sharing</h3>
+          <p>We do not sell, trade, or rent your data to anyone. Third-party data sharing is limited to:</p>
+          <ul class="list-disc pl-5 space-y-1 mt-2 mb-3">
+            <li><strong class="text-white">Google</strong> — through the AdMob SDK in our ad-supported games, only for users who have not purchased the ad-removal option</li>
+            <li><strong class="text-white">Apple</strong> — through Game Center in Fall Catch and Gap Runner, for leaderboard and achievement functionality</li>
+          </ul>
+          <p>Users who purchase the ad-removal option (<strong class="text-white">Pro upgrade</strong> or <strong class="text-white">Remove Ads</strong>) eliminate all ad-related third-party data sharing.</p>
+        </div>
+
+        <!-- 8. Children's Privacy -->
+        <div id="children">
+          <h3 class="text-white font-bold mb-3 text-base">8. Children's Privacy</h3>
+          <p>All of our games are rated <strong class="text-white">4+</strong> and are suitable for all ages. We do not knowingly collect personal information from any user, including children. No registration or account creation is required to play.</p>
+          <p class="mt-3">Parents and guardians can eliminate all advertisements and ad-related data collection in our ad-supported games by purchasing the ad-removal option (Pro upgrade in Bottle Sort Relay, Remove Ads in Fall Catch and Merge Ring).</p>
+        </div>
+
+        <!-- 9. Data Retention and Deletion -->
+        <div id="retention">
+          <h3 class="text-white font-bold mb-3 text-base">9. Data Retention and Deletion</h3>
+          <p>All game data is stored locally on your device and is automatically deleted when you uninstall the app. We do not maintain any server-side databases or backups of your data.</p>
+          <p class="mt-3">Any data collected by third-party services (Google AdMob, Apple Game Center) is subject to their respective retention policies.</p>
+        </div>
+
+        <!-- 10. Your Rights -->
+        <div id="your-rights">
+          <h3 class="text-white font-bold mb-3 text-base">10. Your Rights</h3>
+          <p class="mb-3">Because we do not store any data on our servers, there is no server-side data to request, access, or delete. You are always in full control of your data:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong class="text-white">Delete all local data</strong> — uninstall the app from your device</li>
+            <li><strong class="text-white">Opt out of personalized ads</strong> — go to iOS Settings &gt; Privacy &amp; Security &gt; Tracking</li>
+            <li><strong class="text-white">Eliminate all ad-related data collection</strong> — purchase the ad-removal option (Pro upgrade in Bottle Sort Relay, Remove Ads in Fall Catch and Merge Ring)</li>
+            <li><strong class="text-white">Manage Game Center data</strong> — adjust in iOS Settings &gt; Game Center</li>
+          </ul>
+          <p class="mt-3">If you are located in the EU, UK, California, Brazil, or another jurisdiction with specific privacy rights and have questions about exercising those rights, please <a href="#contact" style="color: #00d4ff;" class="hover:underline">contact us</a>.</p>
+        </div>
+
+        <!-- 11. Changes to This Policy -->
+        <div id="changes">
+          <h3 class="text-white font-bold mb-3 text-base">11. Changes to This Policy</h3>
+          <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date. If we make material changes, we will update the effective date at the top of this page. We encourage you to review this policy periodically.</p>
+        </div>
+
+        <!-- 12. Contact -->
+        <div id="contact" class="pt-8 border-t border-white/5">
+          <h3 class="text-white font-bold mb-3 text-base">12. Contact</h3>
+          <p>If you have questions or concerns about this Privacy Policy or your data, contact us:</p>
+          <p class="mt-3"><strong class="text-white">Edson Braz</strong> — <a href="mailto:edsonluizbraz@gmail.com" style="color: #00d4ff;" class="hover:underline">edsonluizbraz@gmail.com</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Footer ════════════════ -->
+  <footer class="py-12 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-widest text-slate-600">
+    <div class="max-w-6xl mx-auto px-6 space-y-2">
+      <p>&copy; 2026 Edson Braz. All rights reserved.</p>
+      <p>
+        <a href="/support/" class="hover:text-white transition-colors">Support</a>
+        <span class="mx-2">·</span>
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

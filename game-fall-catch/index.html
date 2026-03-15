@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH3WERM6RH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KH3WERM6RH');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fall Catch — Neon Bounce Arcade</title>
+  <meta name="description" content="Tap to place platforms, keep the ball alive, and collect coins in this fast-paced neon arcade game for iOS.">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="apple-itunes-app" content="app-id=XXXXXXXXX">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fall Catch — Neon Bounce Arcade">
+  <meta property="og:description" content="Tap to place platforms and keep a bouncing ball alive. Three difficulty modes, coin collection, and Game Center leaderboards. Free on iOS.">
+  <meta property="og:image" content="logo.png">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0a0a0f;
+      --accent-red: #ff6b6b;
+      --accent-cyan: #4ecdc4;
+      --accent-gold: #ffd93d;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: white;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* ── Atmospheric glows ── */
+    .glow-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(78, 205, 196, 0.08) 0%, transparent 40%);
+      animation: glow-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── Navigation ── */
+    .nav-blur {
+      background: rgba(10, 10, 15, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* ── Glass cards ── */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-6px);
+    }
+
+    /* ── Hero gradient text ── */
+    .hero-gradient-text {
+      background: linear-gradient(to bottom right, #fff 40%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── iPhone mockup ── */
+    .iphone-mockup {
+      width: 280px;
+      height: 580px;
+      background: #0a0a0a;
+      border: 10px solid #1e293b;
+      border-radius: 40px;
+      box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 107, 107, 0.10);
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .iphone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 25px;
+      background: #1e293b;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 20;
+    }
+
+    .iphone-mockup::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 10;
+    }
+
+    /* ── Float ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(0.5deg); }
+    }
+    .floating { animation: float 6s ease-in-out infinite; }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; color: #111; }
+      .glow-bg, nav, .iphone-mockup, .phone-glow, footer,
+      .app-store-badge, .hero-meta-line, #features, #iap { display: none !important; }
+      .hero-gradient-text {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #111;
+      }
+      section { padding-top: 24px !important; padding-bottom: 24px !important; }
+      h2, h3, h4, strong { color: #111 !important; }
+      p, ul, li { color: #222 !important; }
+      a { color: #0066cc !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="glow-bg" aria-hidden="true"></div>
+
+  <!-- ════════════════ Navigation ════════════════ -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img src="logo.png" alt="Logo" class="w-8 h-8 rounded-lg shadow-lg">
+        <span class="text-lg font-black tracking-tight">Fall <span style="color: var(--accent-red);">Catch</span></span>
+      </div>
+      <div class="hidden md:flex gap-8 items-center font-bold text-xs uppercase tracking-widest text-slate-400">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <a href="#hero" class="hover:text-white transition-colors">Game</a>
+        <a href="#how" class="hover:text-white transition-colors">How to Play</a>
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <!-- <a href="https://apps.apple.com/app/idXXXXXXXXX" class="text-white px-5 py-2 rounded-full font-black hover:opacity-80 transition-all" style="background: var(--accent-red);">Download</a> -->
+      </div>
+      <!-- Mobile menu button -->
+      <button id="menu-toggle" class="md:hidden p-2 text-slate-400 hover:text-white transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden overflow-hidden transition-all duration-300 ease-in-out" style="max-height: 0;">
+      <div class="px-6 pb-6 pt-2 flex flex-col gap-4 border-t border-white/5 font-bold text-sm uppercase tracking-widest text-slate-400">
+        <a href="/" class="hover:text-white transition-colors py-2">Home</a>
+        <a href="#hero" class="hover:text-white transition-colors py-2">Game</a>
+        <a href="#how" class="hover:text-white transition-colors py-2">How to Play</a>
+        <a href="#features" class="hover:text-white transition-colors py-2">Features</a>
+        <!-- <a href="https://apps.apple.com/app/idXXXXXXXXX" class="inline-flex justify-center text-white px-5 py-2.5 rounded-full font-black hover:opacity-80 transition-all mt-2" style="background: var(--accent-red);">Download</a> -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════ Hero ════════════════ -->
+  <section id="hero" class="pt-32 pb-20 px-6">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Left column: text -->
+      <div class="text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-black mb-6 tracking-widest uppercase" style="background: rgba(78, 205, 196, 0.10); border-color: rgba(78, 205, 196, 0.20); color: var(--accent-cyan);">
+          Neon Bounce Arcade
+        </div>
+
+        <h1 class="text-5xl lg:text-7xl font-black leading-tight mb-6 hero-gradient-text">
+          Fall<br>
+          <span style="-webkit-text-fill-color: var(--accent-red);">Catch</span>
+        </h1>
+
+        <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+          Tap to place platforms and keep a glowing ball alive. Collect coins, survive one more bounce, and compete on three Game Center leaderboards across Easy, Normal, and Hard.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+          <!-- <a href="https://apps.apple.com/app/idXXXXXXXXX" class="app-store-badge transition-transform hover:scale-105">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="h-14">
+          </a> -->
+          <div class="hero-meta-line text-xs font-bold text-slate-500 uppercase tracking-widest">
+            Ages 4+ &ensp;|&ensp; No accounts required
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: phone mockup -->
+      <div class="flex justify-center relative mt-10 lg:mt-0">
+        <div class="phone-glow absolute -z-10 w-72 h-72 blur-[80px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="background: rgba(255, 107, 107, 0.30);"></div>
+        <div class="iphone-mockup floating">
+          <img src="screenshot.png" alt="Fall Catch gameplay" class="iphone-screen">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════ How to Play ════════════════ -->
+  <section id="how" class="py-24 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 rounded-full" style="background: var(--accent-gold);"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">How to Play</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- Left: Game illustration SVG -->
+        <div class="flex justify-center reveal">
+          <svg class="w-48 md:w-56" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" aria-label="Fall Catch game illustration">
+            <defs>
+              <radialGradient id="fc-bg" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="#12121a"/>
+                <stop offset="100%" stop-color="#0a0a0f"/>
+              </radialGradient>
+              <filter id="fc-glow">
+                <feGaussianBlur stdDeviation="12" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <filter id="fc-ball-glow">
+                <feGaussianBlur stdDeviation="18" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <linearGradient id="fc-grid-line" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.04"/>
+                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Background -->
+            <rect width="1024" height="1024" rx="220" fill="url(#fc-bg)"/>
+
+            <!-- Subtle grid lines -->
+            <line x1="256" y1="80" x2="256" y2="944" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+            <line x1="512" y1="80" x2="512" y2="944" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+            <line x1="768" y1="80" x2="768" y2="944" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+            <line x1="80" y1="340" x2="944" y2="340" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+            <line x1="80" y1="512" x2="944" y2="512" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+            <line x1="80" y1="684" x2="944" y2="684" stroke="url(#fc-grid-line)" stroke-width="1.5"/>
+
+            <!-- Platforms with neon glow -->
+            <rect x="320" y="420" width="200" height="16" rx="8" fill="#4ecdc4" filter="url(#fc-glow)" opacity="0.9"/>
+            <rect x="520" y="600" width="220" height="16" rx="8" fill="#4ecdc4" filter="url(#fc-glow)" opacity="0.7"/>
+            <rect x="200" y="760" width="180" height="16" rx="8" fill="#4ecdc4" filter="url(#fc-glow)" opacity="0.5"/>
+
+            <!-- Ball with trail -->
+            <circle cx="420" cy="320" r="24" fill="#ff6b6b" opacity="0.15"/>
+            <circle cx="420" cy="350" r="28" fill="#ff6b6b" opacity="0.25"/>
+            <circle cx="420" cy="385" r="34" fill="#ff6b6b" filter="url(#fc-ball-glow)"/>
+            <circle cx="412" cy="376" r="10" fill="#ffffff" opacity="0.3"/>
+
+            <!-- Coins -->
+            <circle cx="200" cy="350" r="28" fill="#ffd93d" filter="url(#fc-glow)" opacity="0.85"/>
+            <text x="200" y="359" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', sans-serif" font-weight="700" font-size="28" fill="#a07818">$</text>
+
+            <circle cx="700" cy="520" r="28" fill="#ffd93d" filter="url(#fc-glow)" opacity="0.85"/>
+            <text x="700" y="529" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', sans-serif" font-weight="700" font-size="28" fill="#a07818">$</text>
+
+            <circle cx="450" cy="680" r="28" fill="#ffd93d" filter="url(#fc-glow)" opacity="0.85"/>
+            <text x="450" y="689" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', sans-serif" font-weight="700" font-size="28" fill="#a07818">$</text>
+
+            <!-- Danger zone at bottom -->
+            <rect x="100" y="900" width="824" height="44" rx="22" fill="#ff4757" opacity="0.15"/>
+            <circle cx="472" cy="922" r="6" fill="#ff4757" opacity="0.6"/>
+            <circle cx="512" cy="922" r="6" fill="#ff4757" opacity="0.6"/>
+            <circle cx="552" cy="922" r="6" fill="#ff4757" opacity="0.6"/>
+
+            <!-- Score display -->
+            <text x="512" y="200" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="800" font-size="80" fill="#ffffff" opacity="0.9">120</text>
+            <text x="512" y="235" text-anchor="middle" font-family="-apple-system, 'SF Pro Rounded', 'Inter', sans-serif" font-weight="600" font-size="24" fill="#ffffff" opacity="0.35" letter-spacing="4">SCORE</text>
+          </svg>
+        </div>
+
+        <!-- Right: description -->
+        <div class="space-y-6 reveal">
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            A glowing ball falls through a neon grid. <strong class="text-white">Tap anywhere</strong> to create a temporary platform beneath it. Time your taps — platforms fade after a few seconds and you have a limited supply.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            <strong class="text-white">Collect coins</strong> as they appear for bonus points. The ball bounces off platforms and screen edges — use the physics to your advantage and aim for coin pickups between bounces.
+          </p>
+          <p class="text-slate-400 leading-relaxed font-medium text-lg">
+            Watch the <strong class="text-white" style="color: #ff4757;">danger zone</strong> at the bottom. If the ball falls past your last platform, you lose a life. On Hard mode, you only get one. Choose from <strong class="text-white">Easy, Normal, or Hard</strong> — each with its own Game Center leaderboard.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Features ════════════════ -->
+  <section id="features" class="py-24 bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="flex items-center gap-4 mb-14 reveal">
+        <div class="w-8 h-1 rounded-full" style="background: var(--accent-cyan);"></div>
+        <h2 class="text-3xl font-black uppercase tracking-tighter">What Makes It Click</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#128308;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: var(--accent-red);">One-Tap Gameplay</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Tap anywhere to place a platform. That's it. Simple to learn, brutally hard to master. Every session starts in seconds — perfect for quick bursts or marathon runs.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#127942;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: var(--accent-gold);">3 Difficulty Modes</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Easy gives you 3 lives and wide platforms. Normal ramps up gravity with each bounce. Hard gives you one life, tiny shrinking platforms, and punishing tap cooldowns. Each mode has its own leaderboard.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#127912;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: var(--accent-cyan);">5 Neon Themes</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Play in Neon, Midnight Ocean, Sunset Blaze, Toxic Matrix, or Arctic Frost. Each theme transforms the entire visual experience with unique color palettes and glow effects.
+          </p>
+        </div>
+        <div class="glass-card p-10 rounded-[2.5rem] reveal">
+          <div class="text-4xl mb-4">&#128171;</div>
+          <h3 class="text-2xl font-black mb-3" style="color: var(--accent-red);">Feel Every Bounce</h3>
+          <p class="text-slate-400 leading-relaxed font-medium">
+            Haptic feedback pulses with every bounce and coin pickup. Neon particle effects trail behind the ball. Sound and music react to your gameplay. All toggleable in settings.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ In-App Purchases ════════════════ -->
+  <section id="iap" class="py-24">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="glass-card p-12 rounded-[3rem] text-center reveal" style="border-color: rgba(255, 107, 107, 0.20);">
+        <h2 class="text-3xl font-black mb-4">Free to Play</h2>
+        <p class="text-slate-400 mb-8 max-w-lg mx-auto font-medium leading-relaxed">
+          The full game is free with all difficulty modes, themes, and Game Center leaderboards. Want a cleaner experience? <strong class="text-white">Remove Ads</strong> with a single $1.99 purchase — no banners, no rewarded videos, ever.
+        </p>
+        <p class="text-slate-500 text-sm font-medium">
+          One-time purchase. No subscriptions.
+        </p>
+        <!-- <a href="https://apps.apple.com/app/idXXXXXXXXX" class="inline-block mt-8 text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform" style="background: var(--accent-red);">
+          Get Fall Catch
+        </a> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ Footer ════════════════ -->
+  <footer class="py-12 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-widest text-slate-600">
+    <div class="max-w-6xl mx-auto px-6 space-y-2">
+      <p>&copy; 2026 Edson Braz. All rights reserved.</p>
+      <p><a href="/privacy/" class="hover:text-slate-400 transition-colors">Privacy Policy</a> &ensp;|&ensp; <a href="/support/" class="hover:text-slate-400 transition-colors">Support</a></p>
+      <p class="opacity-50">Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Mobile menu toggle
+    (function() {
+      var toggle = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      var iconOpen = document.getElementById('menu-icon-open');
+      var iconClose = document.getElementById('menu-icon-close');
+      if (!toggle || !menu) return;
+
+      function openMenu() {
+        menu.style.maxHeight = menu.scrollHeight + 'px';
+        toggle.setAttribute('aria-expanded', 'true');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      }
+
+      function closeMenu() {
+        menu.style.maxHeight = '0';
+        toggle.setAttribute('aria-expanded', 'false');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+
+      toggle.addEventListener('click', function() {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+
+      menu.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
