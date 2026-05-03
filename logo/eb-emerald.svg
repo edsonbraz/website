@@ -1,0 +1,11 @@
+<svg viewBox="16 16 134 94" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+  <defs>
+    <path id="eb" fill-rule="evenodd" clip-rule="evenodd" d="M 20 20 h 50 v 20 h -30 v 10 h 20 v 20 h -20 v 10 h 30 v 20 h -50 z M 80 20 h 50 v 10 h 10 v 20 h -10 v 20 h 10 v 20 h -10 v 10 h -50 z M 100 40 v 10 h 20 v -10 z M 100 70 v 10 h 20 v -10 z"/>
+  </defs>
+  <use href="#eb" x="6" y="6" fill="none" stroke="#064e3b" stroke-width="4" opacity="0.4"/>
+  <use href="#eb" x="6" y="6" fill="none" stroke="#064e3b" stroke-width="2"/>
+  <use href="#eb" x="0" y="0" fill="#0B0E14" stroke="#10b981" stroke-width="2"/>
+  <rect x="18" y="18" width="4" height="4" fill="#FFFFFF"/>
+  <rect x="78" y="18" width="4" height="4" fill="#FFFFFF"/>
+  <rect x="128" y="48" width="4" height="4" fill="#FFFFFF"/>
+</svg>

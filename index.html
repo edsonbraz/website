@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Flash prevention: apply saved theme before paint -->
+    <script>
+      (function(){
+        var m=localStorage.getItem('eb-mode');
+        var c=localStorage.getItem('eb-color');
+        var f=localStorage.getItem('eb-font');
+        var el=document.documentElement;
+        if(m){el.setAttribute('data-mode',m);el.style.colorScheme=m;}
+        if(!c){c='grad-amber-rose';}el.setAttribute('data-color',c);
+        if(f){var fonts={'barlow':"'Barlow',system-ui,sans-serif",'dm-sans':"'DM Sans',system-ui,sans-serif",'plus-jakarta':"'Plus Jakarta Sans',system-ui,sans-serif",'space-grotesk':"'Space Grotesk',system-ui,sans-serif",'manrope':"'Manrope',system-ui,sans-serif",'sora':"'Sora',system-ui,sans-serif",'outfit':"'Outfit',system-ui,sans-serif",'inter':"'Inter',system-ui,sans-serif"};if(fonts[f])el.style.fontFamily=fonts[f];}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EB Games — Mobile Games Studio</title>
+    <meta name="description" content="EB Games — Fun, free mobile games. Download Bottle Sort Relay, Fall Catch, Gap Runner, Merge Ring and more." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/svg+xml" href="/logo/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="EB Games — Mobile Games Studio" />
+    <meta property="og:description" content="Fun, free mobile games. Download now." />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH3WERM6RH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-KH3WERM6RH');
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/assets/index-D_umftcE.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D44_9hwH.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

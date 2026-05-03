@@ -1,0 +1,23 @@
+<svg viewBox="16 12 203 105" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+  <defs>
+    <path id="eb-text" fill-rule="evenodd" clip-rule="evenodd" d="M 20 20 h 50 v 20 h -30 v 10 h 20 v 20 h -20 v 10 h 30 v 20 h -50 z M 80 20 h 50 v 10 h 10 v 20 h -10 v 20 h 10 v 20 h -10 v 10 h -50 z M 100 40 v 10 h 20 v -10 z M 100 70 v 10 h 20 v -10 z"/>
+    <path id="mobile" fill-rule="evenodd" clip-rule="evenodd" d="M 10 10 h 40 v 80 h -40 z M 14 18 v 68 h 32 v -68 z M 25 13 v 2 h 10 v -2 z M 14 62 h 32 v 2 h -32 z M 20 46 h 8 v 8 h -8 z M 34 36 h 8 v 4 h -8 z M 18 73 h 2 v -2 h 2 v 2 h 2 v 2 h -2 v 2 h -2 v -2 h -2 z M 34 76 h 4 v 4 h -4 z M 40 71 h 4 v 4 h -4 z"/>
+    <g id="logo">
+      <use href="#eb-text"/>
+      <use href="#mobile" transform="translate(135, 20) rotate(-15)"/>
+    </g>
+  </defs>
+  <use href="#logo" x="6" y="6" fill="none" stroke="#4c1d95" stroke-width="4" opacity="0.4"/>
+  <use href="#logo" x="6" y="6" fill="none" stroke="#4c1d95" stroke-width="2"/>
+  <use href="#logo" x="0" y="0" fill="#0B0E14" stroke="#8a08fd" stroke-width="2"/>
+  <rect x="18" y="18" width="4" height="4" fill="#FFFFFF"/>
+  <rect x="78" y="18" width="4" height="4" fill="#FFFFFF"/>
+  <rect x="128" y="48" width="4" height="4" fill="#FFFFFF"/>
+  <g transform="translate(135, 20) rotate(-15)">
+    <rect x="8" y="8" width="4" height="4" fill="#FFFFFF"/>
+    <rect x="48" y="8" width="4" height="4" fill="#FFFFFF"/>
+    <rect x="8" y="88" width="4" height="4" fill="#FFFFFF"/>
+    <rect x="48" y="88" width="4" height="4" fill="#FFFFFF"/>
+    <rect x="22" y="48" width="4" height="4" fill="#FFFFFF"/>
+  </g>
+</svg>
